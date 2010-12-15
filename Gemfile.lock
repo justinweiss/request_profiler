@@ -1,0 +1,30 @@
+PATH
+  remote: .
+  specs:
+    request_profiler (0.0.1)
+      ruby-prof
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    mocha (0.9.10)
+      rake
+    rack (1.2.1)
+    rack-test (0.5.6)
+      rack (>= 1.0)
+    rake (0.8.7)
+    ruby-prof (0.9.2)
+    sinatra (1.1.0)
+      rack (~> 1.1)
+      tilt (~> 1.1)
+    tilt (1.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  mocha
+  rack-test
+  request_profiler!
+  ruby-prof
+  sinatra
