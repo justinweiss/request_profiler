@@ -4,6 +4,7 @@ Bundler::GemHelper.install_tasks
 
 task :default => :test
 task :build => :test
+task :release => :test
 
 Rake::TestTask.new do |t|
   t.libs << "test"
