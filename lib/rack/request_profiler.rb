@@ -59,7 +59,10 @@ module Rack
       url = request.fullpath.gsub(/[?\/]/, '-')
       filename = "#{Time.now.strftime('%Y-%m-%d-%H-%M-%S')}-#{url}.#{format(printer)}"
       ::File.open(@path + filename, 'w+') do |f|
+        # HACK to keep this from crashing under patched 1.9.2
+        GC.disable
         printer.print(f)
+        GC.enable
       end
     end
   end
