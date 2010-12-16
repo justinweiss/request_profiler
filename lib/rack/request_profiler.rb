@@ -5,8 +5,7 @@ module Rack
     def initialize(app, options = {})
       @app = app
       @printer = options[:printer] || ::RubyProf::GraphHtmlPrinter
-      @mode = options[:mode] || ::RubyProf::PROCESS_TIME
-      @eliminations = options[:eliminations]
+      @exclusions = options[:exclude]
 
       @path = options[:path]
       @path ||= Rails.root + 'tmp/performance' if defined?(Rails)
@@ -16,20 +15,31 @@ module Rack
 
     def call(env)
       request = Rack::Request.new(env)
-      profile_request = request.params.delete("profile_request") == "true"
-
-      if profile_request
-        ::RubyProf.measure_mode = @mode
+      mode = profile_mode(request)
+      
+      if mode
+        ::RubyProf.measure_mode = mode
         ::RubyProf.start
       end
       status, headers, body = @app.call(env)
 
-      if profile_request
+      if mode
         result = ::RubyProf.stop
         write_result(result, request)
       end
       
       [status, headers, body]
+    end
+
+    def profile_mode(request)
+      mode_string = request.params["profile_request"]
+      if mode_string
+        if mode_string.downcase == "true"
+          ::RubyProf::PROCESS_TIME
+        else
+          ::RubyProf.const_get(mode_string.upcase)
+        end
+      end
     end
 
     def format(printer)
@@ -54,15 +64,13 @@ module Rack
     end
 
     def write_result(result, request)
+      result.eliminate_methods!(@exclusions) if @exclusions
       printer = @printer.new(result)
       Dir.mkdir(@path) unless ::File.exists?(@path)
       url = request.fullpath.gsub(/[?\/]/, '-')
       filename = "#{Time.now.strftime('%Y-%m-%d-%H-%M-%S')}-#{url}.#{format(printer)}"
       ::File.open(@path + filename, 'w+') do |f|
-        # HACK to keep this from crashing under patched 1.9.2
-        GC.disable
         printer.print(f)
-        GC.enable
       end
     end
   end
