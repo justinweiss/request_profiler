@@ -31,6 +31,17 @@ class RequestProfilerTest < Test::Unit::TestCase
     assert last_response.ok?
   end
 
+  def test_mode_set_by_param
+    self.app = Rack::RequestProfiler.new(FakeApp.new)
+    RubyProf.expects(:measure_mode=).with(::RubyProf::PROCESS_TIME)
+    get "/?profile_request=true"
+    assert last_response.ok?
+
+    RubyProf.expects(:measure_mode=).with(::RubyProf::WALL_TIME)
+    get "/?profile_request=wall_time"
+    assert last_response.ok?
+  end
+  
   def test_file_format
     self.app = Rack::RequestProfiler.new(FakeApp.new)
     RubyProf.start
