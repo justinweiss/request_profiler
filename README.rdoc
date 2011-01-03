@@ -32,7 +32,7 @@ like this:
 == Using +request_profiler+
 
 When you get to the point where you'd like to profile a request, you
-just add +profile_request=true+ to the end of your request's query
+just add <tt>profile_request=true</tt> to the end of your request's query
 string. By default, this will use the <tt>RubyProf::PROCESS_TIME</tt>
 profiler. If you'd like to use a different profiler, you can specify
 the profiler class instead of +true+ in the query string. For example,
