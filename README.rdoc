@@ -16,15 +16,15 @@ like this:
 
 +request_profiler+ takes a few optional parameters:
 
-+:printer+:: the +ruby-prof+ printer to use. Defaults to
-             <tt>RubyProf::GraphPrinter</tt>.
+:printer:: the <tt>ruby-prof</tt> printer to use. Defaults to
+           <tt>RubyProf::GraphPrinter</tt>.
            
-+:exclude+:: a list of regexes (like <tt>[/Integer#times]</tt>) that
-             will not appear in the profile log. This is most commonly
-             used for methods that take a block, where you don't care
-             how much time was spent in the method itself.
+:exclude:: a list of regexes (like <tt>[/Integer#times]</tt>) that
+           will not appear in the profile log. This is most commonly
+           used for methods that take a block, where you don't care
+           how much time was spent in the method itself.
 
-+:path+:: the path to write the log files to. If +request_profiler+ is
+:path:: the path to write the log files to. If +request_profiler+ is
         running under Rails, this defaults to
         <tt>Rails.root/tmp/performance</tt>, otherwise it defaults to
         <tt>$TMPDIR/performance</tt>.
