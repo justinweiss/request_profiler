@@ -16,35 +16,34 @@ like this:
 
 +request_profiler+ takes a few optional parameters:
 
-  :printer:: the +ruby-prof+ printer to use. Defaults to
-             RubyProf::GraphPrinter.
-             
-  :exclude:: a list of regexes (like +[/Integer#times]+) that will not
-             appear in the profile log. This is most commonly used for
-             methods that take a block, where you don't care how much
-             time was spent in the method itself.
+:printer:: the +ruby-prof+ printer to use. Defaults to
+           RubyProf::GraphPrinter.
+           
+:exclude:: a list of regexes (like <tt>[/Integer#times]</tt>) that
+           will not appear in the profile log. This is most commonly
+           used for methods that take a block, where you don't care
+           how much time was spent in the method itself.
 
-  :path::    the path to write the log files to. If +request_profiler+ is
-             running under Rails, this defaults to
-             +Rails.root/tmp/performance+, otherwise it defaults to
-             +$TMPDIR/performance+.
-             
-
+:path:: the path to write the log files to. If +request_profiler+ is
+        running under Rails, this defaults to
+        <tt>Rails.root/tmp/performance</tt>, otherwise it defaults to
+        <tt>$TMPDIR/performance</tt>.
+ 
 == Using +request_profiler+
 
 When you get to the point where you'd like to profile a request, you
 just add +profile_request=true+ to the end of your request's query
-string. By default, this will use the +RubyProf::PROCESS_TIME+
+string. By default, this will use the <tt>RubyProf::PROCESS_TIME</tt>
 profiler. If you'd like to use a different profiler, you can specify
 the profiler class instead of +true+ in the query string. For example,
 
   profile_request=memory
 
-will use the +RubyProf::MEMORY+ profiler. Note that the profilers
-other than +PROCESS_TIME+ and +WALL_TIME+ require a patched ruby
-interpreter, as mentioned in the ruby-prof documentation. REE should
-work, but as far as I know, these patches don't yet exist for ruby
-1.9.
+will use the <tt>RubyProf::MEMORY</tt> profiler. Note that the
+profilers other than +PROCESS_TIME+ and +WALL_TIME+ require a patched
+ruby interpreter, as mentioned in the ruby-prof documentation. REE
+should work out of the box, but as far as I know, these patches don't
+yet exist for ruby 1.9.
 
 == Bugs Under Ruby 1.9.2
 
