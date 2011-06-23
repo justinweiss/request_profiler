@@ -9,7 +9,7 @@ module Rack
 
       @path = options[:path]
       @path ||= Rails.root + 'tmp/performance' if defined?(Rails)
-      @path ||= ::File.join(ENV["TMPDIR"] + 'performance')
+      @path ||= ::File.join((ENV["TMPDIR"] || "/tmp"), 'performance')
       @path = Pathname(@path)
     end
 
