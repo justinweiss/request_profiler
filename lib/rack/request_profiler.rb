@@ -16,7 +16,7 @@ module Rack
     def call(env)
       request = Rack::Request.new(env)
       mode = profile_mode(request)
-      
+
       if mode
         ::RubyProf.measure_mode = mode
         ::RubyProf.start
@@ -27,14 +27,14 @@ module Rack
         result = ::RubyProf.stop
         write_result(result, request)
       end
-      
+
       [status, headers, body]
     end
 
     def profile_mode(request)
       mode_string = request.params["profile_request"]
       if mode_string
-        if mode_string.downcase == "true"
+        if mode_string.downcase == "true" or mode_string == "1"
           ::RubyProf::PROCESS_TIME
         else
           ::RubyProf.const_get(mode_string.upcase)
@@ -63,12 +63,21 @@ module Rack
       end
     end
 
+    def prefix(printer)
+      case printer
+      when ::RubyProf::CallTreePrinter
+        "callgrind."
+      else
+        ""
+      end
+    end
+
     def write_result(result, request)
       result.eliminate_methods!(@exclusions) if @exclusions
       printer = @printer.new(result)
       Dir.mkdir(@path) unless ::File.exists?(@path)
       url = request.fullpath.gsub(/[?\/]/, '-')
-      filename = "#{Time.now.strftime('%Y-%m-%d-%H-%M-%S')}-#{url}.#{format(printer)}"
+      filename = "#{prefix(printer)}#{Time.now.strftime('%Y-%m-%d-%H-%M-%S')}-#{url.slice(0, 50)}.#{format(printer)}"
       ::File.open(@path + filename, 'w+') do |f|
         printer.print(f)
       end
