@@ -11,6 +11,7 @@ Gem::Specification.new do |s|
   s.homepage    = "https://github.com/justinweiss/request_profiler"
   s.summary     = %q{Profile Rack requests with ruby-prof}
   s.description = %q{Request Profiler is a Rack middleware that allows optionally profiling requests with ruby-prof.}
+  s.license     = 'MIT'
 
   s.rubyforge_project = "request_profiler"
 
