@@ -1,3 +1,5 @@
 require 'request_profiler'
 require 'test/unit'
 require 'rack/test'
+require 'mocha'
+require 'mocha/setup'

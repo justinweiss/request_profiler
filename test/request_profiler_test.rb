@@ -1,6 +1,5 @@
 require 'test_helper'
 require 'fake_app'
-require 'mocha'
 
 class RequestProfilerTest < Test::Unit::TestCase
   include Rack::Test::Methods
@@ -41,15 +40,15 @@ class RequestProfilerTest < Test::Unit::TestCase
     get "/?profile_request=wall_time"
     assert last_response.ok?
   end
-  
+
   def test_file_format
     self.app = Rack::RequestProfiler.new(FakeApp.new)
     RubyProf.start
     results = RubyProf.stop
     printer = self.app.instance_variable_get(:@printer).new(results)
-    
+
     assert_equal ::RubyProf::GraphHtmlPrinter, printer.class
     assert_equal 'html', self.app.format(printer)
   end
-  
+
 end
