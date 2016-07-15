@@ -21,7 +21,11 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_dependency 'ruby-prof'
-  s.add_development_dependency 'rack-test'
-  s.add_development_dependency 'sinatra'
-  s.add_development_dependency 'mocha'
+  s.add_dependency 'rack'
+
+  s.add_development_dependency 'test-unit', '~> 3.2'
+  s.add_development_dependency 'rake', '~> 11.2', '>= 11.2.2'
+  s.add_development_dependency 'rack-test', '~> 0.6.3'
+  s.add_development_dependency 'sinatra', '~> 1.4', '>= 1.4.7'
+  s.add_development_dependency 'mocha', '~> 1.1'
 end
