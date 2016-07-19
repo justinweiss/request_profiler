@@ -75,7 +75,7 @@ module Rack
     def write_result(result, request)
       result.eliminate_methods!(@exclusions) if @exclusions
       printer = @printer.new(result)
-      Dir.mkdir(@path) unless ::File.exists?(@path)
+      Dir.mkdir(@path) unless ::File.exist?(@path)
       url = request.fullpath.gsub(/[?\/]/, '-')
       filename = "#{prefix(printer)}#{Time.now.strftime('%Y-%m-%d-%H-%M-%S')}-#{url.slice(0, 50)}.#{format(printer)}"
       ::File.open(@path + filename, 'w+') do |f|
